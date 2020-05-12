@@ -4,7 +4,7 @@ import scrapy
 
 class FindglocalSpider(scrapy.Spider):
     name = 'findglocal'
-    allowed_domains = ['www.findglocal.com/ID']
+    allowed_domains = ['www.findglocal.com']
     start_urls = [
         'http://www.findglocal.com/ID/cities/A',
         'http://www.findglocal.com/ID/cities/B',
