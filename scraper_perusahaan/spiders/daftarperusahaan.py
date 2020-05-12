@@ -31,23 +31,23 @@ class DaftarperusahaanSpider(scrapy.Spider):
             yield response.follow(next_url, callback=self.parse_category)
 
     def parse_detail(self, response):
-        category = response.css('.meta .category a::text').get().strip()
-        name = response.css('h2::text').get().strip()
-        address = response.css('.node p::text').get().strip()
-        city = response.css('.meta .tags a::text').get().strip()
-        phone = response.css('.field-field-telepon .field-item::text').get().strip()
-        email = response.css('.field-field-email .field-item::text').get().strip()
-        website = response.css('.field-field-website .field-item::text').get().strip()
-        description = response.css('.meta .tags::text')[-1].get().strip()
-        url = response.url
+        category = response.css('.meta .category a::text').get() or ''
+        name = response.css('h2::text').get() or ''
+        address = response.css('.node p::text').get() or ''
+        city = response.css('.meta .tags a::text').get() or ''
+        phone = response.css('.field-field-telepon .field-item::text').get() or ''
+        email = response.css('.field-field-email .field-item::text').get() or ''
+        website = response.css('.field-field-website .field-item::text').get() or ''
+        description = response.css('.meta .tags::text')[-1].get() or ''
+        url = response.url or ''
         yield {
-            'category': category,
-            'name': name,
-            'address': address,
-            'city': city,
-            'phone': phone,
-            'email': email,
-            'website': website,
-            'description': description,
-            'url': url,
+            'category': category.strip(),
+            'name': name.strip(),
+            'address': address.strip(),
+            'city': city.strip(),
+            'phone': phone.strip(),
+            'email': email.strip(),
+            'website': website.strip(),
+            'description': description.strip(),
+            'url': url.strip(),
         }
