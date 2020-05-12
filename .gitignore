@@ -1,0 +1,7 @@
+/.scrapy
+/.vscode
+/*.json
+/*.jl
+
+__pycache__
+*.log
