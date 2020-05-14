@@ -56,7 +56,11 @@ class CekinfoSpider(scrapy.Spider):
             elif 'Tentang' in panel_title:
                 description = panel_body
 
-        if len(email) == 0 or len(phone) == 0:
+        if len(email) == 0:
+            self.log('EMPTY EMAIL')
+            return
+        if len(phone) == 0:
+            self.log('EMPTY PHONE')
             return
 
         yield {
