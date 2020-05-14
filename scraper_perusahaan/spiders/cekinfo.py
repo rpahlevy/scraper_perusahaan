@@ -29,7 +29,7 @@ class CekinfoSpider(scrapy.Spider):
             if 'disabled' in li.css('::attr(class)').get():
                 select_next = True
         if next_page is not None:
-            yield response.follow(next_page, self.parse_category)
+            yield response.follow(next_page.get(), self.parse_category)
 
     def parse_detail(self, response):
         category = response.css('.breadcrumb li')[-2].css('::text').get() or ''
