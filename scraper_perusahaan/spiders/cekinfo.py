@@ -23,6 +23,8 @@ class CekinfoSpider(scrapy.Spider):
         select_next = False
         next_page = None
         for li in response.css('.pagination li'):
+            if li is None:
+                continue
             if select_next:
                 next_page = li.css('a::attr(href)')
                 break
