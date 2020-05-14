@@ -45,17 +45,24 @@ class CekinfoSpider(scrapy.Spider):
 
         for panel in response.css('.panel'):
             panel_title = panel.css('.col-xs-10.col-sm-11::text').get().strip()
-            panel_body = panel.css('.panel-body::text').get().strip()
             if 'Alamat' in panel_title:
-                address = panel_body
+                address = []
+                for addr in panel.css('.panel-body::text'):
+                    address.append(addr.get().strip())
+                address = ', '.join(address)
             elif 'Telepon' in panel_title:
-                phone = panel_body
+                phone = panel.css('.panel-body::text').get().strip()
             elif 'Website' in panel_title:
-                website = panel_body
+                website = panel.css('.panel-body a::attr(href)').get().strip()
+                if self.allowed_domains[0] in website:
+                    website = ''
             elif 'Email' in panel_title:
-                email = panel_body
-            elif 'Tentang' in panel_title:
-                description = panel_body
+                email = panel.css('.panel-body a::attr(href)').get().replace('mailto:', '')
+            # elif 'Tentang' in panel_title:
+            #     description = []
+            #     for desc in panel.css('.panel-body::text'):
+            #         description.append(desc.get().strip())
+            #     description = ' '.join(description)
 
         if len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
