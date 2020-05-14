@@ -22,14 +22,14 @@ class CekinfoSpider(scrapy.Spider):
         # get next page
         select_next = False
         next_page = None
-        for li in response.css('.pagination '):
+        for li in response.css('.pagination li'):
             if select_next:
                 next_page = li.css('a::attr(href)')
                 break
             if 'disabled' in li.css('::attr(class)').get():
                 select_next = True
         if next_page is not None:
-            yield response.follow(next_page)
+            yield response.follow(next_page, self.parse_category)
 
     def parse_detail(self, response):
         category = response.css('.breadcrumb li')[-2].css('::text').get() or ''
