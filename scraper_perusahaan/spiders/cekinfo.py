@@ -47,13 +47,13 @@ class CekinfoSpider(scrapy.Spider):
             panel_body = panel.css('.panel-body::text').get().strip()
             if 'Alamat' in panel_title:
                 address = panel_body
-            else if 'Telepon' in panel_title:
+            elif 'Telepon' in panel_title:
                 phone = panel_body
-            else if 'Website' in panel_title:
+            elif 'Website' in panel_title:
                 website = panel_body
-            else if 'Email' in panel_title:
+            elif 'Email' in panel_title:
                 email = panel_body
-            else if 'Tentang' in panel_title:
+            elif 'Tentang' in panel_title:
                 description = panel_body
 
         if len(email) == 0 or len(phone) == 0
