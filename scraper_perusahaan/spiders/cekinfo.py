@@ -23,12 +23,11 @@ class CekinfoSpider(scrapy.Spider):
         select_next = False
         next_page = None
         for li in response.css('.pagination li'):
-            if li is None:
-                continue
             if select_next:
                 next_page = li.css('a::attr(href)')
                 break
-            if 'disabled' in li.css('::attr(class)').get():
+            li_class = li.css('::attr(class)').get()
+            if li_class is not None and 'disabled' in li_class:
                 select_next = True
         if next_page is not None:
             yield response.follow(next_page.get(), self.parse_category)
