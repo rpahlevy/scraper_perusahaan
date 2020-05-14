@@ -13,7 +13,7 @@ class CekinfoSpider(scrapy.Spider):
 
         next_page = response.css('.pagination li[style=""] a::attr(href)')
         if next_page is not None:
-            yield response.follow(next_page, self.parse)
+            yield response.follow(next_page.get(), self.parse)
 
     def parse_category(self, response):
         for href in response.css('h3.panel-title a::attr(href)'):
