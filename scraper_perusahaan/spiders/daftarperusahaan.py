@@ -38,7 +38,7 @@ class DaftarperusahaanSpider(scrapy.Spider):
         phone = response.css('.field-field-telepon .field-item::text').get() or ''
         email = response.css('.field-field-email .field-item::text').get() or ''
         website = response.css('.field-field-website .field-item::text').get() or ''
-        description = response.css('.meta .tags::text')[-1].get() or ''
+        description = ''
         url = response.url or ''
         yield {
             'category': category.strip(),
