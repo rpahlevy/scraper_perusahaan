@@ -58,10 +58,10 @@ class CekinfoSpider(scrapy.Spider):
                 description = panel_body
 
         if len(email) == 0:
-            self.log('{} : EMPTY EMAIL'.format(url), level=logging.INFO)
+            self.logger.info('{} : EMPTY EMAIL'.format(url))
             return
         if len(phone) == 0:
-            self.log('{} : EMPTY PHONE'.format(url), level=logging.INFO)
+            self.logger.info('{} : EMPTY PHONE'.format(url))
             return
 
         yield {
