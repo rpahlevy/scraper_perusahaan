@@ -106,12 +106,22 @@ def clean_data(data):
         data['phone'] = data['phone'].split(',')[0].strip()
     if ';' in data['phone']:
         data['phone'] = data['phone'].split(';')[0].strip()
+    if '  ' in data['phone']:
+        data['phone'] = data['phone'].split('  ')[-1].strip()
     if ' – ' in data['phone']:
         data['phone'] = data['phone'].split(' – ')
         if len(data['phone']) >= 3:
             data['phone'] = ''.join(data['phone']).strip()
         else:
             data['phone'] = data['phone'][0].strip()
+    if ' - ' in data['phone']:
+        data['phone'] = data['phone'].split(' - ')
+        if len(data['phone']) >= 3:
+            data['phone'] = ''.join(data['phone']).strip()
+        elif len(data['phone'][-1]) >= 7:
+            data['phone'] = data['phone'][-1].strip()
+        else:
+            data['phone'] = ''.join(data['phone']).strip()
     data['phone'] = re.sub('[^0-9a-zA-Z]', '', data['phone']).strip().lower()
     if 'fax' in data['phone']:
         data['phone'] = data['phone'].split('fax')[0].strip()
