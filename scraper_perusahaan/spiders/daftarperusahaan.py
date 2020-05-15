@@ -53,9 +53,9 @@ class DaftarperusahaanSpider(scrapy.Spider):
                 image_url = image_url.strip()
                 ext = image_url.split('.')[-1]
                 image_name = self.get_slug(self.fix_title(name))
-                target_dir = 'images/{}/'.format(self.name)
-                self.logger.info('downloading image: {} => {}{}'.format(image_url, target_dir, image_name))
-                urllib.request.urlretrieve(image_url, target_dir + image_name)
+                target_dir = 'images/{}/{}'.format(self.name, image_name)
+                self.logger.info('downloading image: {} => {}'.format(image_url, target_dir))
+                urllib.request.urlretrieve(image_url, target_dir)
             yield {
                 'category': category.strip(),
                 'name': name.strip(),
