@@ -41,26 +41,31 @@ class DaftarperusahaanSpider(scrapy.Spider):
         description = ''
         url = response.url or ''
 
-        image_url = response.css('img::attr(src)').get()
-        if image_url is not None:
-            image_url = image_url.strip()
-            ext = image_url.split('.')[-1]
-            image_name = self.get_slug(self.fix_title(name))
-            target_dir = 'images/{}/'.format(self.name)
-            self.logger.info('downloading image: {} => {}{}'.format(image_url, target_dir, image_name))
-            urllib.request.urlretrieve(image_url, target_dir + image_name)
+        if len(email) == 0:
+            self.logger.info('{} : EMPTY EMAIL'.format(url))
+        if len(phone) == 0:
+            self.logger.info('{} : EMPTY PHONE'.format(url))
 
-        yield {
-            'category': category.strip(),
-            'name': name.strip(),
-            'address': address.strip(),
-            'city': city.strip(),
-            'phone': phone.strip(),
-            'email': email.strip(),
-            'website': website.strip(),
-            'description': description.strip(),
-            'url': url.strip(),
-        }
+        if len(email) > 0 and len(phone) > 0:
+            image_url = response.css('img::attr(src)').get()
+            if image_url is not None:
+                image_url = image_url.strip()
+                ext = image_url.split('.')[-1]
+                image_name = self.get_slug(self.fix_title(name))
+                target_dir = 'images/{}/'.format(self.name)
+                self.logger.info('downloading image: {} => {}{}'.format(image_url, target_dir, image_name))
+                urllib.request.urlretrieve(image_url, target_dir + image_name)
+            yield {
+                'category': category.strip(),
+                'name': name.strip(),
+                'address': address.strip(),
+                'city': city.strip(),
+                'phone': phone.strip(),
+                'email': email.strip(),
+                'website': website.strip(),
+                'description': description.strip(),
+                'url': url.strip(),
+            }
 
     def fix_title(self, title):
         # remove non utf
