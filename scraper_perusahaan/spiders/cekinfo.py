@@ -64,21 +64,20 @@ class CekinfoSpider(scrapy.Spider):
             #         description.append(desc.get().strip())
             #     description = ' '.join(description)
 
-        # if len(email) == 0:
-        #     self.logger.info('{} : EMPTY EMAIL'.format(url))
-        #     return
-        # if len(phone) == 0:
-        #     self.logger.info('{} : EMPTY PHONE'.format(url))
-        #     return
+        if len(email) == 0:
+            self.logger.info('{} : EMPTY EMAIL'.format(url))
+        if len(phone) == 0:
+            self.logger.info('{} : EMPTY PHONE'.format(url))
 
-        yield {
-            'category': category.strip(),
-            'name': name.strip(),
-            'address': address.strip(),
-            'city': city.strip(),
-            'phone': phone.strip(),
-            'email': email.strip(),
-            'website': website.strip(),
-            'description': description.strip(),
-            'url': url.strip(),
-        }
+        if len(email) > 0 and len(phone) > 0:
+            yield {
+                'category': category.strip(),
+                'name': name.strip(),
+                'address': address.strip(),
+                'city': city.strip(),
+                'phone': phone.strip(),
+                'email': email.strip(),
+                'website': website.strip(),
+                'description': description.strip(),
+                'url': url.strip(),
+            }
