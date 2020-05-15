@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import urllib.request
+import re
 
 class DaftarperusahaanSpider(scrapy.Spider):
     name = 'daftarperusahaan'
