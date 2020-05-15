@@ -3,8 +3,8 @@ import re
 
 file_reputasi = 'reputasi.jl'
 
-file_source = 'daftarperusahaan.jl'
-file_output = 'daftarperusahaan.json'
+file_source = 'cekinfo.jl'
+file_output = 'cekinfo.json'
 
 def fix_title(title):
     # remove non utf
@@ -112,7 +112,20 @@ def clean_data(data):
             data['phone'] = ''.join(data['phone']).strip()
         else:
             data['phone'] = data['phone'][0].strip()
-    data['phone'] = re.sub('[^0-9a-zA-Z]', '', data['phone']).strip()
+    data['phone'] = re.sub('[^0-9a-zA-Z]', '', data['phone']).strip().lower()
+    if 'fax' in data['phone']:
+        data['phone'] = data['phone'].split('fax')[0].strip()
+    if 'ext' in data['phone']:
+        data['phone'] = data['phone'].split('ext')[0].strip()
+    if 'to' in data['phone']:
+        data['phone'] = data['phone'].split('to')[0].strip()
+    if 'hunting' in data['phone']:
+        data['phone'] = data['phone'].split('hunting')[0].strip()
+    if 'phone' in data['phone']:
+        data['phone'] = data['phone'].split('phone')[-1].strip()
+    if 'telp' in data['phone']:
+        data['phone'] = data['phone'].split('telp')[-1].strip()
+    data['phone'] = re.sub('[^0-9]', '', data['phone']).strip()
     if data['phone'][:2] == '62':
         if data['phone'][:3] == '620':
             data['phone'] = data['phone'][3:]
@@ -120,10 +133,16 @@ def clean_data(data):
             data['phone'] = data['phone'][2:]
         data['phone'] = '0' + data['phone']
 
+    if ':' in data['email']:
+        data['email'] = data['email'].split(':')[-1].strip()
     if '/' in data['email']:
-        data['email'] = data['email'].split(':')[0].strip()
+        data['email'] = data['email'].split('/')[0].strip()
     if ';' in data['email']:
         data['email'] = data['email'].split(';')[0].strip()
+    if ',' in data['email']:
+        data['email'] = data['email'].split(',')[0].strip()
+    if ' ' in data['email']:
+        data['email'] = data['email'].split(' ')[0].strip()
     data['email'] = re.sub('-', '', data['email']).strip()
 
     data['website'] = re.sub('&amp;', '&', data['website'])
@@ -160,6 +179,8 @@ skipped_counter = {
     'empty_address': 0,
     'empty_phone': 0,
     'empty_email': 0,
+    'invalid_phone': 0,
+    'invalid_email': 0,
 }
 with open(file_source, 'r') as f:
     result = [json.loads(row) for row in f.read().strip().split('\n')]
@@ -174,8 +195,9 @@ with open(file_source, 'r') as f:
         if (row['slug'] in done or
             len(row['name']) == 0 or
             len(row['address']) == 0 or
-            len(row['phone']) == 0 or
-            len(row['email']) == 0):
+            len(row['phone']) < 7 or
+            len(row['email']) < 8 or
+                '@' not in row['email'] or '.' not in row['email']):
             if row['slug'] in done:
                 print('-- SKIPPED : DONE')
                 skipped_counter['done'] += 1
@@ -188,9 +210,18 @@ with open(file_source, 'r') as f:
             if len(row['phone']) == 0:
                 print('-- SKIPPED : EMPTY PHONE')
                 skipped_counter['empty_phone'] += 1
+            elif len(row['phone']) < 7:
+                print('-- SKIPPED : INVALID PHONE (<6)')
+                skipped_counter['invalid_phone'] += 1
             if len(row['email']) == 0:
                 print('-- SKIPPED : EMPTY EMAIL')
                 skipped_counter['empty_email'] += 1
+            elif len(row['email']) < 8:
+                print('-- SKIPPED : INVALID EMAIL (<8)')
+                skipped_counter['invalid_email'] += 1
+            elif '@' not in row['email'] or '.' not in row['email']:
+                print('-- SKIPPED : INVALID EMAIL (bad format)')
+                skipped_counter['invalid_email'] += 1
             continue
         perusahaan.append(row)
         done[row['slug']] = ''

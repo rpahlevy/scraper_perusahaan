@@ -64,12 +64,12 @@ class CekinfoSpider(scrapy.Spider):
             #         description.append(desc.get().strip())
             #     description = ' '.join(description)
 
-        if len(email) == 0:
-            self.logger.info('{} : EMPTY EMAIL'.format(url))
-            return
-        if len(phone) == 0:
-            self.logger.info('{} : EMPTY PHONE'.format(url))
-            return
+        # if len(email) == 0:
+        #     self.logger.info('{} : EMPTY EMAIL'.format(url))
+        #     return
+        # if len(phone) == 0:
+        #     self.logger.info('{} : EMPTY PHONE'.format(url))
+        #     return
 
         yield {
             'category': category.strip(),
