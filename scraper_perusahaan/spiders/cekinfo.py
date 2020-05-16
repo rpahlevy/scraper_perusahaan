@@ -58,11 +58,17 @@ class CekinfoSpider(scrapy.Spider):
                     website = ''
             elif 'Email' in panel_title:
                 email = panel.css('.panel-body a::attr(href)').get().replace('mailto:', '')
-            # elif 'Tentang' in panel_title:
-            #     description = []
-            #     for desc in panel.css('.panel-body::text'):
-            #         description.append(desc.get().strip())
-            #     description = ' '.join(description)
+            elif 'Tentang' in panel_title:
+                description = []
+                for desc in panel.css('.panel-body::text'):
+                    description.append(desc.get().strip())
+                description = ' '.join(description).strip()
+                if len(description) == 0:
+                    for desc in panel.css('.panel-body p::text'):
+                        desc = desc.get().strip()
+                        if len(desc) >= 200:
+                            description = desc
+                            break
 
         if len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
