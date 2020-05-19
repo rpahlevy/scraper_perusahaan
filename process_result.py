@@ -6,6 +6,9 @@ file_reputasi = 'reputasi.jl'
 file_source = 'cekinfo.jl'
 file_output = 'cekinfo.json'
 
+def remove_unicode(text):
+    return re.sub(r'[^\x00-\x7F\x80-\xFF\u0100-\u017F\u0180-\u024F\u1E00-\u1EFF]', u'', text) 
+
 def fix_title(title):
     # remove non utf
     title = bytes(title, 'utf-8').decode('utf-8', 'ignore')
@@ -97,6 +100,8 @@ def clean_data(data):
     data['address'] = re.sub('"', '', data['address'])
     data['address'] = re.sub('\'', '', data['address'])
     data['address'] = re.sub('\n', ' ', data['address'])
+    if len(data['address']) < 10:
+        data['address'] = ''
 
     if '/' in data['phone']:
         data['phone'] = data['phone'].split('/')[0].strip()
@@ -158,17 +163,24 @@ def clean_data(data):
     data['website'] = re.sub('&amp;', '&', data['website'])
     data['website'] = re.sub('-', '', data['website']).strip()
 
-    if len(data['description']) == 0 or True:
-        data['description'] = '{} adalah perusahaan yang bergerak di bidang {}'.format(
-            data['name'],
-            data['category']
-        )
     data['description'] = bytes(data['description'], 'utf-8').decode('utf-8', 'ignore')
     data['description'] = re.sub(';', ', ', data['description'])
     data['description'] = re.sub('"', '', data['description'])
     data['description'] = re.sub('\'', '', data['description'])
-    data['description'] = re.sub('\n', ' ', data['description'])
+    data['description'] = re.sub('\n', '. ', data['description'])
     data['description'] = data['description'].strip()
+    if len(data['description']) < 50:
+        data['description'] = ''
+    if len(data['description']) == 0:
+        data['description'] = '{} adalah perusahaan yang bergerak di bidang {}'.format(
+            data['name'],
+            data['category']
+        )
+
+    for k, v in data.items():
+        v = remove_unicode(v)
+        v = v.replace('  ', ' ').replace('  ', ' ').replace('  ', ' ')
+        data[k] = v
 
     return data
 

@@ -1,5 +1,7 @@
 /.scrapy
 /.vscode
+/*.csv
+/*.html
 /*.json
 /*.jl
 /*.xls
