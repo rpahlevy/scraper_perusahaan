@@ -152,6 +152,8 @@ def clean_data(data):
         else:
             data[COL_PHONE] = data[COL_PHONE][2:]
         data[COL_PHONE] = '0' + data[COL_PHONE]
+    elif data[COL_PHONE][0] != '0' and data[COL_CITY].lower() not in ['singapore', 'australia']:
+        data[COL_PHONE] = '0' + data[COL_PHONE]
 
     if ':' in data[COL_EMAIL]:
         data[COL_EMAIL] = data[COL_EMAIL].split(':')[-1].strip()
@@ -172,7 +174,8 @@ def clean_data(data):
     data[COL_DESCRIPTION] = re.sub(';', ', ', data[COL_DESCRIPTION])
     data[COL_DESCRIPTION] = re.sub('"', '', data[COL_DESCRIPTION])
     data[COL_DESCRIPTION] = re.sub('\'', '', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = re.sub('\n', '. ', data[COL_DESCRIPTION])
+    data[COL_DESCRIPTION] = re.sub('[\r\n]', '. ', data[COL_DESCRIPTION])
+    data[COL_DESCRIPTION] = re.sub('[\n]', '. ', data[COL_DESCRIPTION])
     data[COL_DESCRIPTION] = data[COL_DESCRIPTION].strip()
     if len(data[COL_DESCRIPTION]) < 50:
         data[COL_DESCRIPTION] = ''
@@ -226,11 +229,15 @@ print("INFO: start cleaning...")
 for row in data:
     # print(row[COL_NAME])
     row = clean_data(row)
-    name = fix_title(row[COL_NAME])
+    name = row[COL_NAME] #fix_title(row[COL_NAME])
     slug = get_slug(name)
     email = row[COL_EMAIL]
     phone = row[COL_PHONE]
     website = row[COL_WEBSITE]
+    city = row[COL_CITY]
+    if len(city) == 0:
+        city = row[COL_ADDRESS].strip().split(' ')[-1].strip()#.lower()
+        row[COL_CITY] = city
     if slug in done_slug:
         duplicate['slug'] += 1
         print('INFO: dp slug => {}'.format(slug))
