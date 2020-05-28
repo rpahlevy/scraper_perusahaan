@@ -38,7 +38,7 @@ class ManufakturindoSpider(scrapy.Spider):
             for li in lis:
                 k = li.css('::text').get().strip().split(':')[0].strip()
                 v = li.css('::text').get().strip().split(':')[-1].strip()
-                if len(k) == 0 or len(v) == 0:
+                if len(k) == 0:
                     continue
                 if 'Company Name' in k:
                     name = v
@@ -49,7 +49,7 @@ class ManufakturindoSpider(scrapy.Spider):
                 elif 'Fax' in k:
                     fax = v
                 elif 'Email' in k:
-                    email = v
+                    email = li.css('a::text').get().strip()
             # description
             description = []
             for p in response.css('.comp-row > p::text'):
@@ -71,7 +71,7 @@ class ManufakturindoSpider(scrapy.Spider):
             for tr in trs:
                 k = tr.css('td::text')[0].get()
                 v = tr.css('td::text')[-1].get()
-                if len(k) == 0 or len(v) == 0:
+                if len(k) == 0:
                     continue
                 if 'Nama Perusahaan' in k:
                     name = v
@@ -105,25 +105,25 @@ class ManufakturindoSpider(scrapy.Spider):
         if len(phone) == 0:
             self.logger.info('{} : EMPTY PHONE'.format(url))
 
-        if len(email) > 0 and len(phone) > 0:
-            name = helpers.fix_title(name)
-            slug = helpers.get_slug(name)
-            if image_url is not None and len(image_url) > 0:
-                image_url = image_url.strip()
-                ext = image_url.split('.')[-1]
-                image_name = slug
-                target_dir = 'images/{}.{}'.format(image_name, ext)
-                self.logger.info('downloading image: {} => {}'.format(image_url, target_dir))
-                urllib.request.urlretrieve(image_url, target_dir)
-            yield {
-                'category': category.strip(),
-                'name': name.strip(),
-                'slug': slug.strip(),
-                'address': address.strip(),
-                'city': city.strip(),
-                'phone': phone.strip(),
-                'email': email.strip(),
-                'website': website.strip(),
-                'description': description.strip(),
-                'url': url.strip(),
-            }
+        # if len(email) > 0 and len(phone) > 0:
+        name = helpers.fix_title(name)
+        slug = helpers.get_slug(name)
+        if image_url is not None and len(image_url) > 0:
+            image_url = image_url.strip()
+            ext = image_url.split('.')[-1]
+            image_name = slug
+            target_dir = 'images/{}.{}'.format(image_name, ext)
+            self.logger.info('downloading image: {} => {}'.format(image_url, target_dir))
+            urllib.request.urlretrieve(image_url, target_dir)
+        yield {
+            'category': category.strip(),
+            'name': name.strip(),
+            'slug': slug.strip(),
+            'address': address.strip(),
+            'city': city.strip(),
+            'phone': phone.strip(),
+            'email': email.strip(),
+            'website': website.strip(),
+            'description': description.strip(),
+            'url': url.strip(),
+        }
