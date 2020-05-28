@@ -11,6 +11,81 @@ COL_EMAIL = 'Email'
 COL_WEBSITE = 'Website'
 COL_DESCRIPTION = 'Deskripsi'
 
+f_desc = {
+    'advertising': 'Perusahan {} adalah perusahaan yang bergerak di bidang Advertising.',
+    'agen asuransi': 'Perusahaan {} merupakan agen asuransi, orang yang bertindak untuk menawarkan dan memasarkan produk asuransi untuk dan atas nama penanggung.',
+    'agen travel dan perjalanan': 'Perusahan {} merupakan Agen Travel dan Perjalanan yang melayani berbagai Tour dan Travel perjalanan.',
+    'alat kantor & distributor': 'Perusahan {} merupakan distributor alat kantor yang menyediakan berbagai macam alat kantor.',
+    'audit keuangan': 'Perusahaan {} adalah lembaga audit keuangan,  Audit laporan keuangan merupakan penilaian atas suatu perusahaan atau badan hukum lainnya (termasuk pemerintah) sehingga dapat dihasilkan pendapat yang independen tentang laporan keuangan yang relevan, akurat, lengkap, dan disajikan secara wajar.',
+    'bakery': 'Perusahaan {} merupakan Bakery atau Toko Roti yang menyediakan berbagai jenis roti dengan berbagai varian.',
+    'bank & perkreditan': 'Perusahaan {} merupakan perusahaan dalam bidang Bank dan Perkreditan.',
+    'bimbingan belajar': 'Perusahan {} merupakan bimbingan belajar bagi para pelajar dengan berbagai mata pelajaran.',
+    'bisnis center': 'Perusahaan {} merupakan bisnis center',
+    'buah & sayuran': 'Perusahan {} merupakan penyedia Buah dan Sayuran sehat.',
+    'bumn': 'Perusahaan {} merupakan perusahaan BUMN, perusahaan  yang dimiliki baik sepenuhnya, sebagian besar, maupun sebagian kecil oleh pemerintah dan pemerintah memberi kontrol terhadapnya.',
+    'catering': 'Perusahan {} merupakan perusahaan catering yang menyediakan segala jenis makanan untuk berbagai acara.',
+    'dealer mesin': '{} Merupakan perusahaan dealer mesin yang menyediakan mesin - mesin.',
+    'dealer mobil': 'Perusahan {} merupakan Dealer Mobil dan Motor yang menyediakan berbagai type Mobil dan Motor.',
+    'distributor': 'Perusahan {} merupakan Distributor berbagai barang dengan kualitas terjamin.',
+    'distributor elektronika': 'Perusahaan {} merupakan distributor elektronika yang menyediakan berbagai produk elektronik.',
+    'distributor logam': 'Perusahaan {} merupakan Distributor Logam yang menyediakan Logam Logam dengan kualitas tinggi.',
+    'dokter umum': '{} merupakan dokter umum yang melayani berbagai keluhan penyakit.',
+    'export import': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'furniture': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'gereja kristen': '{} merupakan gereja kristen yang juga bergerak dalam bidang organisasi sosial',
+    'hidrolik & supplier': 'Perusahaan {} merupakan Supplier yang menyediakan hidrolik.',
+    'jasa konstruksi': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'jasa pelayanan': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'jasa wedding': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'kaca mata': '{} merupakan Toko {} yang menyediakan berbagai jenis {}.',
+    'kantor akuntan': '{} merupakan badan usaha yang telah mendapatkan izin dari Menteri Keuangan sebagai wadah bagi akuntan publik dalam memberikan jasanya.',
+    'kantor dagang': '{} merupakan Perusahaan dagang , perusahaan yang bisnis utamanya membeli barang dari pemasok dan menjual lagi ke konsumen tanpa mengubah wujud barang tersebut.',
+    'kaos & konveksi': '{} merupakan perusahaan yang bergerak dalam pembuatan {}.',
+    'kerajinan tangan & souvenir': 'Perusahaan {} adalah perusahaan yang bergerak dalam bidang {}.',
+    'konsultan bisnis': 'Perusahaan {} merupakan perusahaan yang bergerak dalam bidang konsultan bisnis',
+    'konsultant': '{} adalah seorang tenaga profesional yang menyediakan jasa kepenasihatan (consultancy service) dalam bidang keahlian tertentu, misalnya akuntansi, pajak, lingkungan, biologi, hukum, koperasi dan lain-lain.',
+    'laundry': 'Perusahaan {} merupakan perusahaan laundry yang memberikan jasa laundry pakaian dan berbagai macam lainnya',
+    'lembaga keuangan': '{} merupakan badan usaha atau institusi di bidang jasa keuangan yang bergerak dengan cara menghimpun dana dari masyarakat dan menyalurkannya untuk pendanaan serta dengan mendapatkan keuntungan dalam bentuk bunga atau persentase.',
+    'mall': '{} merupakan pusat perbelanjaan segala jenis barang.',
+    'marketing agency': 'Perusahan {} merupakan perusahaan yang bergerak dalam bidang marketing agency.',
+    'organisasi sosial': '{} merupakan Organisasi sosial yang bergerak dalam hal sosial.',
+    'pabrik & toko sepatu': '{} merupakan perusahaan yang bergerak dalam pembuatan {}.',
+    'pabrik kelautan': 'Perusahaan {} merupakan Perusahaan yang bergerak dalam bidang perkapalan',
+    'pabrik kimia': '{} merupakan Industri kimia merujuk pada suatu industri yang terlibat dalam produksi zat kimia.',
+    'pabrikan makanan': '{} merupakan industry yang mengolah bahan mentah menjadi makanan.',
+    'penerbitan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'pengacara': '{} adalah orang yang berprofesi memberi jasa hukum, baik di dalam maupun di luar pengadilan yang wilayah kerjanya di seluruh wilayah Republik Indonesia.',
+    'perbaikan & pembersihan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'perbaikan & servis': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'percetakan & penerbitan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'percetakan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'pertanian': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'perusahaan asuransi': '{} merupakan perusahaan asuransi, perusahaan yang memberikan jasa dalam penanggulangan risiko atas kerugian, kehilangan manfaat, dan tanggung jawab hukum kepada pihak ketiga, yang timbul dari peristiwa yang tidak pasti.',
+    'perusahaan investasi': '{} merupakan Perusahaan Investasi, perantara keuangan yang menghimpun dana dari para investor perorangan dan menanamkan dana tersebut pada beragam sekuritas atau aset lainnya.',
+    'perusahaan konstruksi': 'Perusahaan {} merupakan Perusahaan Konstruksi yang bergerak dalam bidang konstruksi',
+    'perusahaan outsourcing': '{} merupakan Perusahaan outsourcing, perusahaan yang menyediakan jasa dan menyalurkan tenaga kerja dengan keahlian tertentu ke perusahaan yang membutuhkan',
+    'peternakan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'produsen': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'produsen obat': 'Perusahaan {} merupakan perusahaan yang memproduksi obat - obatan',
+    'produsen & perakitan': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'pub & diskotik': '{} merupakan perusahaan yang bergerak dalam bidang {}.',
+    'restoran keluarga': '{} merupakan Restoran keluarga yang menyediakan berbagai jenis makanan.',
+    'sekolah': '{} merupakan {}, lembaga untuk para siswa pengajaran siswa/murid di bawah pengawasan guru.',
+    'seni & barang antik': '{} merupakan perusahaan yang bergerak dalam pembuatan {}.',
+    'supplier alat pabrik': 'Perusahaan {} merupakan perusahaan yang menyediakan alat alat pabrik',
+    'toko bangunan': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko buku': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko hewan peliharaan': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko mainan': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko olahraga': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko pakaian': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko pecah belah': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko perlengkapan bayi': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'toko serba ada': '{} merupakan {} yang menyediakan berbagai jenis {}.',
+    'universitas / sekolah tinggi': '{} merupakan {}, lembaga untuk para siswa pengajaran siswa/murid di bawah pengawasan guru.',
+}
+# categories = ['agen asuransi', 'agrikultur', 'audit keuangan', 'bumn', 'export import', 'konsultan bisnis', 'marketing agency', 'pabrik kelautan', 'perusahaan asuransi', 'perusahaan konstruksi', 'produsen obat', 'universitas / sekolah tinggi']
+
 def remove_unicode(text):
     return re.sub(r'[^\x00-\x7F\x80-\xFF\u0100-\u017F\u0180-\u024F\u1E00-\u1EFF]', u'', text) 
 
@@ -170,20 +245,24 @@ def clean_data(data):
     data[COL_WEBSITE] = re.sub('&amp;', '&', data[COL_WEBSITE])
     data[COL_WEBSITE] = re.sub('-', '', data[COL_WEBSITE]).strip()
 
-    data[COL_DESCRIPTION] = bytes(data[COL_DESCRIPTION], 'utf-8').decode('utf-8', 'ignore')
-    data[COL_DESCRIPTION] = re.sub(';', ', ', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = re.sub('"', '', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = re.sub('\'', '', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = re.sub('[\r\n]', '. ', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = re.sub('[\n]', '. ', data[COL_DESCRIPTION])
-    data[COL_DESCRIPTION] = data[COL_DESCRIPTION].strip()
-    if len(data[COL_DESCRIPTION]) < 50:
-        data[COL_DESCRIPTION] = ''
-    if len(data[COL_DESCRIPTION]) == 0:
-        data[COL_DESCRIPTION] = '{} adalah perusahaan yang bergerak di bidang {}'.format(
-            data[COL_NAME],
-            data[COL_CATEGORY]
-        )
+    c_low = data[COL_CATEGORY].lower()
+    if c_low in f_desc and len(f_desc[c_low]) > 0:
+        data[COL_DESCRIPTION] = f_desc[c_low].format(data[COL_NAME], data[COL_CATEGORY], data[COL_CATEGORY].replace('Toko', '').strip())
+    else:
+        data[COL_DESCRIPTION] = bytes(data[COL_DESCRIPTION], 'utf-8').decode('utf-8', 'ignore')
+        data[COL_DESCRIPTION] = re.sub(';', ', ', data[COL_DESCRIPTION])
+        data[COL_DESCRIPTION] = re.sub('"', '', data[COL_DESCRIPTION])
+        data[COL_DESCRIPTION] = re.sub('\'', '', data[COL_DESCRIPTION])
+        data[COL_DESCRIPTION] = re.sub('[\r\n]', '. ', data[COL_DESCRIPTION])
+        data[COL_DESCRIPTION] = re.sub('[\n]', '. ', data[COL_DESCRIPTION])
+        data[COL_DESCRIPTION] = data[COL_DESCRIPTION].strip()
+        if len(data[COL_DESCRIPTION]) < 50:
+            data[COL_DESCRIPTION] = ''
+        if len(data[COL_DESCRIPTION]) == 0:
+            data[COL_DESCRIPTION] = '{} adalah perusahaan yang bergerak di bidang {}'.format(
+                data[COL_NAME],
+                data[COL_CATEGORY]
+            )
 
     for k, v in data.items():
         if k is None or v is None:
@@ -229,6 +308,10 @@ print("INFO: start cleaning...")
 for row in data:
     # print(row[COL_NAME])
     row = clean_data(row)
+    category = row[COL_CATEGORY]
+    # sc = category.lower()
+    # if sc not in categories:
+    #     categories.append(sc)
     name = row[COL_NAME] #fix_title(row[COL_NAME])
     slug = get_slug(name)
     email = row[COL_EMAIL]
@@ -283,3 +366,10 @@ for k, v in duplicate.items():
     total_duplicate += v
 print("total duplicate\t\t{}".format(total_duplicate))
 print("INFO: exiting...")
+
+# categories.sort()
+# print('{')
+# for c in categories:
+#     print("\t'{}': '',".format(c))
+# print('}')
+# print(categories)
