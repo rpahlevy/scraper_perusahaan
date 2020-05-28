@@ -1,4 +1,5 @@
 import re
+import os
 import requests
 
 
@@ -86,6 +87,9 @@ def get_slug(title, replace_space=''):
     return slug
 
 def download(url, to):
+    # cek if file exists
+    if os.path.exists(to) and os.path.getsize(to) > 0:
+        return True
     r = requests.get(url)
     if r.status_code == 200:
         with open(to, 'wb') as f:
