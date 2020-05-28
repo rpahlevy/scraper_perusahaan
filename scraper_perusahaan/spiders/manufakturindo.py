@@ -45,11 +45,11 @@ class ManufakturindoSpider(scrapy.Spider):
                 elif 'Address' in k:
                     address = v
                 elif 'Telephone' in k:
-                    phone = li.css('a::text').get().strip()
+                    phone = li.css('a::text').get()
                 elif 'Fax' in k:
                     fax = v
                 elif 'Email' in k:
-                    email = li.css('a::text').get().strip()
+                    email = li.css('a::text').get()
             # description
             description = []
             for p in response.css('.comp-row > p::text'):
