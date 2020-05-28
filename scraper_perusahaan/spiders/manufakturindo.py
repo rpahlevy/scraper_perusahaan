@@ -100,9 +100,9 @@ class ManufakturindoSpider(scrapy.Spider):
             # image_url
             image_url = response.css('img.center-img::attr(src)').get() or ''
 
-        if len(email) == 0:
+        if email is None or len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
-        if len(phone) == 0:
+        if phone is None or len(phone) == 0:
             self.logger.info('{} : EMPTY PHONE'.format(url))
 
         # if len(email) > 0 and len(phone) > 0:
