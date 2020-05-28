@@ -85,5 +85,5 @@ def get_slug(title, replace_space=''):
         slug = re.sub(' ', replace_space, slug).strip()
     return slug
 
-def download(url, to)
+def download(url, to):
     urllib.request.urlretrieve(url, to)
