@@ -102,8 +102,10 @@ class ManufakturindoSpider(scrapy.Spider):
 
         if email is None or len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
+            email = ''
         if phone is None or len(phone) == 0:
             self.logger.info('{} : EMPTY PHONE'.format(url))
+            phone = ''
 
         # if len(email) > 0 and len(phone) > 0:
         name = helpers.fix_title(name)
