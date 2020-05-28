@@ -29,7 +29,7 @@ def get_slug(title, replace_space=''):
     # split by '-'
     if '-' in slug:
         slug = slug.split('-')
-        if len(slug[-1].split(' ')) > 3:
+        if len(slug[0]) <= 5 or len(slug[-1].split(' ')) > 3:
             slug[-1] = slug[-1].strip()
             slug = ''.join(slug)
         else:
