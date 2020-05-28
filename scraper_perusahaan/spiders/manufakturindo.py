@@ -114,7 +114,7 @@ class ManufakturindoSpider(scrapy.Spider):
             image_name = slug
             target_dir = 'images/{}.{}'.format(image_name, ext)
             self.logger.info('downloading image: {} => {}'.format(image_url, target_dir))
-            urllib.request.urlretrieve(image_url, target_dir)
+            helpers.download(image_url, target_dir)
         yield {
             'category': category.strip(),
             'name': name.strip(),
