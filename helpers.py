@@ -1,5 +1,5 @@
 import re
-import urllib
+import requests
 
 
 def fix_title(title):
@@ -86,4 +86,10 @@ def get_slug(title, replace_space=''):
     return slug
 
 def download(url, to):
-    urllib.request.urlretrieve(url, to)
+    r = requests.get(url)
+    if r.status_code == 200:
+        with open(to, 'wb') as f:
+            f.write(r.content)
+        return True
+    else:
+        return False
