@@ -23,17 +23,77 @@ def fix_title(title):
     title = title.strip(' ,.')
     return title
 
-def get_slug(title, replace_space=''):
+def remove_fix(slug):
+    slug = slug.strip(' ,.')
+    # skip if len <= 4
+    if len(slug) <= 4:
+        return slug
+    # helper
+    first2 = slug[:2]
+    last2 = slug[-2:]
+    last3 = slug[-3:]
+    # cek pt & pt.
+    if first2 == 'pt':
+        slug = slug[2:]
+        return remove_fix(slug)
+    if last2 == 'pt':
+        slug = slug[:-2]
+        return remove_fix(slug)
+    slug = slug.strip(' ,.')
+    # cek cv & cv.
+    if first2 == 'cv':
+        slug = slug[2:]
+        return remove_fix(slug)
+    if last2 == 'cv':
+        slug = slug[:-2]
+        return remove_fix(slug)
+    slug = slug.strip(' ,.')
+    # cek tbk & tbk.
+    if last3 == 'tbk':
+        slug = slug[:-3]
+        return remove_fix(slug)
+    slug = slug.strip(' ,.')
+    # cek ltd & ltd.
+    if last3 == 'ltd':
+        slug = slug[:-3]
+        return remove_fix(slug)
+    slug = slug.strip(' ,.')
+    # cek co & co.
+    if last2 == 'co':
+        slug = slug[:-2]
+        return remove_fix(slug)
+    slug = slug.strip(' ,.')
+    return slug
+
+def get_slug(title, replace_space='', remove_city=False):
     slug = title.lower().strip()
     slug = slug.strip(' ,.')
+    # remove ()
+    slug = re.sub('[\(\)\/\\]', '', slug)
+    slug = slug.strip(' ,.')
+    # skip helper if len <= 4
+    if len(slug) <= 4:
+        if len(replace_space) > 0:
+            slug = re.sub(' ', replace_space, slug).strip(' ,.')
+        return slug
+    # remove prepend / append
+    slug = remove_fix(slug)
+    # remove city?
+    if remove_city:
+        # split by ' - '
+        if ' - ' in slug:
+            slug = slug.split(' - ')
+            slug = ' '.join(slug[:-1])
+            slug = slug.strip(' ,.')
     # split by '-'
     if '-' in slug:
         slug = slug.split('-')
-        if len(slug[0]) <= 5 or len(slug[-1].split(' ')) > 3:
-            slug[-1] = slug[-1].strip()
-            slug = ''.join(slug)
-        else:
-            slug = ''.join(slug[:-1])
+        # if len(slug[0]) <= 5 or len(slug[-1]) <= 5 or len(slug[-1].split(' ')) > 3:
+        #     slug[-1] = slug[-1].strip()
+        #     slug = ''.join(slug)
+        # else:
+        #     slug = ''.join(slug[:-1])
+        slug = ' '.join(slug)
         slug = slug.strip(' ,.')
     # split by '|'
     if '|' in slug:
@@ -43,47 +103,16 @@ def get_slug(title, replace_space=''):
     if ':' in slug:
         slug = slug.split(':')[0]
         slug = slug.strip(' ,.')
-    # remove ()
-    slug = re.sub('[\(\)\/\/]', '', slug)
-    slug = slug.strip(' ,.')
-    # skip helper if len <= 4
-    if len(slug) <= 4:
-        if len(replace_space) > 0:
-            slug = re.sub(' ', replace_space, slug).strip()
-        return slug
-    # helper
-    first2 = slug[:2]
-    first3 = slug[:3]
-    last2 = slug[-2:]
-    last3 = slug[-3:]
-    last4 = slug[-4:]
-    # cek pt & pt.
-    if first2 == 'pt':
-        slug = slug[2:]
-    if last2 == 'pt':
-        slug = slug[:-2]
-    slug = slug.strip(' ,.')
-    # cek cv & cv.
-    if first2 == 'cv':
-        slug = slug[2:]
-    if last2 == 'cv':
-        slug = slug[:-2]
-    slug = slug.strip(' ,.')
-    # cek tbk & tbk.
-    if last3 == 'tbk':
-        slug = slug[:-3]
-    slug = slug.strip(' ,.')
-    # cek ltd & ltd.
-    if last3 == 'ltd':
-        slug = slug[:-3]
-    slug = slug.strip(' ,.')
-    # cek co & co.
-    if last2 == 'co':
-        slug = slug[:-2]
-    slug = slug.strip(' ,.')
+    # remove prepend / append
+    slug = remove_fix(slug)
+    # remove extra space
+    slug = re.sub('  ', ' ', slug)
+    slug = re.sub('  ', ' ', slug)
+    slug = re.sub('  ', ' ', slug)
     # replace_space
     if len(replace_space) > 0:
         slug = re.sub(' ', replace_space, slug).strip()
+    slug = slug.strip(' ,.')
     return slug
 
 def download(url, to):
