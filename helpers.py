@@ -69,7 +69,7 @@ def get_slug(title, replace_space='', remove_city=False):
     slug = title.lower().strip()
     slug = slug.strip(' ,.')
     # remove ()
-    slug = re.sub('[\(\)\/\\]', '', slug)
+    slug = re.sub('[\(\)\/\\\]', '', slug)
     slug = slug.strip(' ,.')
     # skip helper if len <= 4
     if len(slug) <= 4:
