@@ -13,7 +13,8 @@ class KlikalamatSpider(scrapy.Spider):
             yield response.follow(node_url, callback=self.parse_detail)
         next = response.css('a.next')
         if next is not None:
-            yield response.follow(next, callback=self.parse)
+            next_url = next.css('::attr(href)').get()
+            yield response.follow(next_url, callback=self.parse)
 
     def parse_detail(self, response):
         category = response.css('.breadcrumb-trail > a::text')[1].get()
