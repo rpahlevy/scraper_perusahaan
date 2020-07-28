@@ -28,8 +28,9 @@ class KlikalamatSpider(scrapy.Spider):
         url = response.url or ''
 
         # description
-        for txt in response.css('.listing_description h5::text'):
+        for txt in response.css('#listing_description h5::text'):
             description.append(txt.get().strip())
+            break
         description = '. '.join(description)
         description = description.replace('..', '.')
 
