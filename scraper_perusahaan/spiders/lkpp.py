@@ -44,21 +44,21 @@ class LkppSpider(scrapy.Spider):
             k = tr.css('td::text')[0].get()
             v = tr.css('td::text')[-1].get()
             if len(k) == 0:
-                    continue
-                if 'Nama' in k:
-                    name = v
-                elif 'Kota' in k:
-                    city = v
-                elif 'Alamat' in k:
-                    address = v
-                elif 'Telepon' in k:
-                    phone = v
-                elif 'Email' in k:
-                    email = v
-                elif 'Bidang Usaha' in k:
-                    category = v
-                elif 'Website' in k:
-                    website = v
+                continue
+            if 'Nama' in k:
+                name = v
+            elif 'Kota' in k:
+                city = v
+            elif 'Alamat' in k:
+                address = v
+            elif 'Telepon' in k:
+                phone = v
+            elif 'Email' in k:
+                email = v
+            elif 'Bidang Usaha' in k:
+                category = v
+            elif 'Website' in k:
+                website = v
 
         if len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
