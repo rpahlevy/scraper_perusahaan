@@ -17,7 +17,7 @@ class KlikalamatSpider(scrapy.Spider):
             yield response.follow(next_url, callback=self.parse)
 
     def parse_detail(self, response):
-        category = response.css('.breadcrumb-trail > a::text')[1].get()
+        category = response.css('.breadcrumb-trail > a::text')[1].get() or ''
         name = response.css('h1 span.single-title::text').get() or ''
         address = ''
         city = ''
