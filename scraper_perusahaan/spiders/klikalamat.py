@@ -12,8 +12,8 @@ class KlikalamatSpider(scrapy.Spider):
             node_url = node.css('a::attr(href)').get()
             yield response.follow(node_url, callback=self.parse_detail)
         next = response.css('a.next')
-        if next is not None:
-            next_url = next.css('::attr(href)').get()
+        for a in next:
+            next_url = a.css('::attr(href)').get()
             yield response.follow(next_url, callback=self.parse)
 
     def parse_detail(self, response):
