@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+import helpers
 
 class DirektoribisnisSpider(scrapy.Spider):
     name = 'direktoribisnis'
