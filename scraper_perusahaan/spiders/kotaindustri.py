@@ -42,7 +42,7 @@ class KotaindustriSpider(scrapy.Spider):
         for tr in response.css('.atbd_contact_info > ul > li'):
             k = tr.css('atbd_info_title::text').get()
             v = tr.css('atbd_info::text').get()
-            if len(k) == 0:
+            if k is None or len(k) == 0:
                 continue
             elif 'Alamat' in k:
                 address = v
