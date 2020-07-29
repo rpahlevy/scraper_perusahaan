@@ -40,16 +40,16 @@ class KotaindustriSpider(scrapy.Spider):
 
         # table information
         for tr in response.css('.atbd_contact_info > ul > li'):
-            k = tr.css('atbd_info_title::text').get()
-            v = tr.css('atbd_info::text').get()
+            k = tr.css('.atbd_info_title::text').get()
+            v = tr.css('.atbd_info::text').get()
             if k is None or len(k) == 0:
                 continue
             elif 'Alamat' in k:
                 address = v
             elif 'Telepon' in k:
-                phone = v
+                phone = tr.css('.atbd_info a::text').get()
             elif 'Email' in k:
-                email = v
+                email = tr.css('.atbd_info a::text').get()
             elif 'Website' in k:
                 website = v
 
