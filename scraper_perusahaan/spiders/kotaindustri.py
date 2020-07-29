@@ -9,12 +9,12 @@ class KotaindustriSpider(scrapy.Spider):
 
     def parse(self, response):
         for node in response.css('#directorist a'):
-            node_url = node.css('a::attr(href)').get()
+            node_url = node.css('a::attr(href)').get().strip()
             yield response.follow(node_url, callback=self.parse_category)
 
     def parse_category(self, response):
         for node in response.css('.atbdp_column .atbd_listing_title > a'):
-            node_url = node.css('a::attr(href)').get()
+            node_url = node.css('a::attr(href)').get().strip()
             yield response.follow(node_url, callback=self.parse_detail)
 
     def parse_detail(self, response):
