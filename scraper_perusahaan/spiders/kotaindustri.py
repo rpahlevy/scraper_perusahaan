@@ -4,8 +4,8 @@ import scrapy
 
 class KotaindustriSpider(scrapy.Spider):
     name = 'kotaindustri'
-    allowed_domains = ['kotaindustri.co.id']
-    start_urls = ['http://www.kotaindustri.co.id/all-categories/']
+    allowed_domains = ['www.kotaindustri.co.id']
+    start_urls = ['https://www.kotaindustri.co.id/all-categories/']
 
     def parse(self, response):
         for node in response.css('#directorist a'):
