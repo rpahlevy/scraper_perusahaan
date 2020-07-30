@@ -56,8 +56,8 @@ class DirektoribisnisSpider(scrapy.Spider):
         address = address.replace(' ,', ',')
 
         # description
-        for txt in response.css('.col-sm-12 > p'):
-            description.append(txt.get().strip())
+        for txt in response.css('.col-sm-12 > p p'):
+            description.append(txt.css('::text').get().strip())
         description = '. '.join(description)
         description = description.replace('..', '.')
         description = description.replace('. . ', '. ')
