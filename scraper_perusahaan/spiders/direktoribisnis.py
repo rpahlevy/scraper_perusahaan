@@ -57,7 +57,8 @@ class DirektoribisnisSpider(scrapy.Spider):
 
         # description
         for txt in response.css('.col-sm-12 > p p'):
-            description.append(txt.css('::text').get().strip())
+            d = txt.css('::text').get() or ''
+            description.append(d.strip())
         description = '. '.join(description)
         description = description.replace('..', '.')
         description = description.replace('. . ', '. ')
