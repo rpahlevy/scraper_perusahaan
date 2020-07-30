@@ -43,7 +43,7 @@ class LkppSpider(scrapy.Spider):
         for tr in response.css('.information table tr'):
             k = tr.css('td::text')[0].get()
             v = tr.css('td::text')[-1].get()
-            if len(k) == 0:
+            if len(k) == 0 or k == v:
                 continue
             if 'Nama' in k:
                 name = v
