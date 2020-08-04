@@ -6,7 +6,7 @@ class TripadvisorSpider(scrapy.Spider):
     name = 'tripadvisor'
     allowed_domains = ['tripadvisor.com']
     start_urls = [
-        'https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html',
+        # 'https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html',
         'https://www.tripadvisor.com/Restaurants-g294225-Indonesia.html'
     ]
 
