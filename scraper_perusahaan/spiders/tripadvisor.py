@@ -5,23 +5,44 @@ import scrapy
 class TripadvisorSpider(scrapy.Spider):
     name = 'tripadvisor'
     allowed_domains = ['tripadvisor.com']
-    start_urls = ['https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html']
+    start_urls = [
+        'https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html',
+        'https://www.tripadvisor.com/Restaurants-g294225-Indonesia.html'
+    ]
 
     def parse(self, response):
+        url = response.url
+        if 'Hotel' in url:
+            self.parse_hotel(response)
+        if 'Restaurant' in url:
+            self.parse_restaurant(response)
+    def parse_hotel(self, response):
         for node in response.css('a.property_title'):
             node_url = node.css('::attr(href)').get()
             yield response.follow(node_url, callback=self.parse_detail)
         # another category
         for node in response.css('.geo_wrap > a'):
             node_url = node.css('::attr(href)').get()
-            yield response.follow(node_url, callback=self.parse)
+            yield response.follow(node_url, callback=self.parse_hotel)
         for node in response.css('.geoList > li > a'):
             node_url = node.css('::attr(href)').get()
-            yield response.follow(node_url, callback=self.parse)
+            yield response.follow(node_url, callback=self.parse_hotel)
         # next category
         next = response.css('.nav.next::attr(href)').get()
         if next is not None:
-            yield response.follow(next, callback=self.parse)
+            yield response.follow(next, callback=self.parse_hotel)
+    def parse_restaurant(self, response):
+        for node in response.css('a._15_ydu6b'):
+            node_url = node.css('::attr(href)').get()
+            yield response.follow(node_url, callback=self.parse_detail)
+        # another category
+        for node in response.css('.geo_wrap > a'):
+            node_url = node.css('::attr(href)').get()
+            yield response.follow(node_url, callback=self.parse_restaurant)
+        # next category
+        next = response.css('.nav.next::attr(href)').get()
+        if next is not None:
+            yield response.follow(next, callback=self.parse_restaurant)
 
     def get_category(self, url):
         if 'Hotel' in url:
