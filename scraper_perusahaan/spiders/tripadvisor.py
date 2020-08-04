@@ -36,7 +36,7 @@ class TripadvisorSpider(scrapy.Spider):
             node_url = node.css('::attr(href)').get()
             yield response.follow(node_url, callback=self.parse_detail)
         # another category
-        for node in response.css('.geo_wrap > a'):
+        for node in response.css('.geo_name > a'):
             node_url = node.css('::attr(href)').get()
             yield response.follow(node_url, callback=self.parse_restaurant)
         # next category
