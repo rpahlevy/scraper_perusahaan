@@ -13,9 +13,9 @@ class TripadvisorSpider(scrapy.Spider):
     def parse(self, response):
         url = response.url
         if 'Hotel' in url:
-            self.parse_hotel(response)
+            return self.parse_hotel(response)
         if 'Restaurant' in url:
-            self.parse_restaurant(response)
+            return self.parse_restaurant(response)
     def parse_hotel(self, response):
         for node in response.css('a.property_title'):
             node_url = node.css('::attr(href)').get()
