@@ -50,11 +50,11 @@ class TripadvisorSpider(scrapy.Spider):
 
     def get_category(self, url):
         if 'Hotel' in url:
-            return 'Hotel'
+            return 'Hotel_'
         if 'Restaurant' in url:
-            return 'Restaurant'
+            return 'Restaurant_'
         if 'Vacation' in url:
-            return 'Vacation'
+            return 'Vacation_'
         return ''
 
     def get_email(self, html):
