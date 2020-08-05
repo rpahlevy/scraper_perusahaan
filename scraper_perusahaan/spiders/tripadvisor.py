@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import base64
 
 
 class TripadvisorSpider(scrapy.Spider):
@@ -78,14 +79,23 @@ class TripadvisorSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         category = self.get_category(response.url)
-        name = response.css('h1#HEADING::text').get() or ''
+        name = response.css('h1::text').get() or ''
         address = response.css('._3ErVArsu::text').get() or ''
         city = ''
         phone = self.get_phone(response.text)
         email = self.get_email(response.text)
-        website = ''
+        website = response.css('._105c0u5l span > a::attr(data-encoded-url)').get() or ''
         description = ''
         url = response.url or ''
+
+        # alternate address for restaurant
+        if len(address) == 0:
+            address = response.css('._15QfMZ2L::text').get() or ''
+
+        # decode website
+        if len(website) > 0:
+            website = base64.b64decode(website).decode()
+            website = website.split('_')[1]
 
         # get email & phone from contact list if any
         if len(email) == 0:
