@@ -49,12 +49,12 @@ class TripadvisorSpider(scrapy.Spider):
             yield response.follow(next, callback=self.parse_restaurant)
 
     def get_category(self, url):
-        if 'Hotel' in url:
-            return 'Hotel_'
-        if 'Restaurant' in url:
-            return 'Restaurant_'
-        if 'Vacation' in url:
-            return 'Vacation_'
+        if 'Hotel_' in url:
+            return 'Hotel'
+        if 'Restaurant_' in url:
+            return 'Restaurant'
+        if 'Vacation_' in url:
+            return 'Vacation'
         return ''
 
     def get_email(self, html):
