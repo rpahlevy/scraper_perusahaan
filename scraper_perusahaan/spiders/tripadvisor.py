@@ -6,7 +6,7 @@ class TripadvisorSpider(scrapy.Spider):
     name = 'tripadvisor'
     allowed_domains = ['tripadvisor.com']
     start_urls = [
-        # 'https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html',
+        'https://www.tripadvisor.com/Hotels-g294225-Indonesia-Hotels.html',
         'https://www.tripadvisor.com/Restaurants-g294225-Indonesia.html'
     ]
 
@@ -101,9 +101,9 @@ class TripadvisorSpider(scrapy.Spider):
             phone = phone.replace('tel:', '')
 
         if len(email) == 0:
-            self.logger.info('{} : EMPTY EMAIL'.format(url))
+            self.logger.debug('{} : EMPTY EMAIL'.format(url))
         if len(phone) == 0:
-            self.logger.info('{} : EMPTY PHONE'.format(url))
+            self.logger.debug('{} : EMPTY PHONE'.format(url))
 
         if len(email) > 0 and len(phone) > 0:
             yield {
