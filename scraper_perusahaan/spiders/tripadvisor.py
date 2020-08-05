@@ -39,6 +39,9 @@ class TripadvisorSpider(scrapy.Spider):
         for node in response.css('.geo_name > a'):
             node_url = node.css('::attr(href)').get()
             yield response.follow(node_url, callback=self.parse_restaurant)
+        for node in response.css('.geoList > li > a'):
+            node_url = node.css('::attr(href)').get()
+            yield response.follow(node_url, callback=self.parse_restaurant)
         # next category
         next = response.css('.nav.next::attr(href)').get()
         if next is not None:
@@ -83,6 +86,19 @@ class TripadvisorSpider(scrapy.Spider):
         website = ''
         description = ''
         url = response.url or ''
+
+        # get email & phone from contact list if any
+        if len(email) == 0:
+            contact = response.css('._36TL14Jn._3jdfbxG0 a')
+            for node in contact:
+                key = node.css('span._2saB_OSe::text').get()
+                if 'Email' in key:
+                    email = node.css('::attr(href)').get() or ''
+                    if len(email) > 0:
+                        email = email.split('?')[0].replace('mailto:', '')
+        if len(phone) == 0:
+            phone = response.css('._105c0u5l > ._36TL14Jn > a::attr(href)').get() or ''
+            phone = phone.replace('tel:', '')
 
         if len(email) == 0:
             self.logger.info('{} : EMPTY EMAIL'.format(url))
