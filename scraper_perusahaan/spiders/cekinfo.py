@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+import helpers
 
 class CekinfoSpider(scrapy.Spider):
     name = 'cekinfo'
@@ -34,10 +34,12 @@ class CekinfoSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         category = response.css('.breadcrumb li')[-2].css('::text').get() or ''
-        name = response.css('.breadcrumb li')[-1].css('::text').get() or ''
+        name = helpers.fix_title(response.css('.breadcrumb li')[-1].css('::text').get() or '')
+        slug = helpers.get_slug(name)
         address = ''
         city = ''
         phone = ''
+        fax = ''
         email = ''
         website = ''
         description = ''
@@ -51,13 +53,17 @@ class CekinfoSpider(scrapy.Spider):
                     address.append(addr.get().strip())
                 address = ', '.join(address)
             elif 'Telepon' in panel_title:
-                phone = panel.css('.panel-body::text').get().strip()
+                phones = panel.css('.panel-body::text')
+                if phones is not None:
+                    phone = phones[0].get().strip()
+                    if len(phones) > 1:
+                        fax = phones[1].get().strip()
             elif 'Website' in panel_title:
                 website = panel.css('.panel-body a::attr(href)').get().strip()
                 if self.allowed_domains[0] in website:
                     website = ''
             elif 'Email' in panel_title:
-                email = panel.css('.panel-body a::attr(href)').get().replace('mailto:', '')
+                email = panel.css('.panel-body a::text').get()
             elif 'Tentang' in panel_title:
                 description = []
                 for desc in panel.css('.panel-body::text'):
@@ -70,20 +76,22 @@ class CekinfoSpider(scrapy.Spider):
                             description = desc
                             break
 
-        if len(email) == 0:
-            self.logger.info('{} : EMPTY EMAIL'.format(url))
-        if len(phone) == 0:
-            self.logger.info('{} : EMPTY PHONE'.format(url))
+        # if len(email) == 0:
+        #     self.logger.info('{} : EMPTY EMAIL'.format(url))
+        # if len(phone) == 0:
+        #     self.logger.info('{} : EMPTY PHONE'.format(url))
 
-        if len(email) > 0 and len(phone) > 0:
-            yield {
-                'category': category.strip(),
-                'name': name.strip(),
-                'address': address.strip(),
-                'city': city.strip(),
-                'phone': phone.strip(),
-                'email': email.strip(),
-                'website': website.strip(),
-                'description': description.strip(),
-                'url': url.strip(),
-            }
+        # if len(email) > 0 and len(phone) > 0:
+        yield {
+            'category': category.strip(),
+            'name': name.strip(),
+            'slug': slug.strip(),
+            'address': address.strip(),
+            'city': city.strip(),
+            'phone': phone.strip(),
+            'fax': fax.strip(),
+            'email': email.strip(),
+            'website': website.strip(),
+            'description': description.strip(),
+            'url': url.strip(),
+        }
